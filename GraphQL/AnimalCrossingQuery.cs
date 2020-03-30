@@ -19,6 +19,10 @@ namespace AnimalCrossing.GraphQL
                 ),
                 resolve: context => db.Fishs.FirstOrDefaultAsync(x => x.Id == context.GetArgument<int>(id, 0))
             );
+            Field<FishType>(
+                "fishs",
+                resolve: context => db.Fishs.FirstOrDefaultAsync()
+            );
         }
     }
 }
