@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +32,7 @@ namespace AnimalCrossing
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<KestrelServerOptions>(options=>options.AllowSynchronousIO=true);
             services.AddDbContext<ApiDbContext>(opt => opt.UseMySql(Configuration.GetSection(nameof(AppOption)).GetValue<string>(nameof(AppOption.DbConnection))));
             services.AddControllers();
             services.AddTransient<IDocumentExecuter, DocumentExecuter>();

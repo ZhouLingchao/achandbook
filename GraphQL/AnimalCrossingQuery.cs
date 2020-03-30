@@ -11,7 +11,7 @@ namespace AnimalCrossing.GraphQL
         {
             Field<FishType>(
                 nameof(Fish).ToLower(),
-                resolve: context => new Fish()
+                resolve: context => new Fish(){Id=1,Name="test"}
             );
         }
     }
