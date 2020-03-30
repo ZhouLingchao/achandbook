@@ -33,7 +33,12 @@ namespace AnimalCrossing
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<KestrelServerOptions>(options=>options.AllowSynchronousIO=true);
+            #if !DEBUG
             services.AddDbContext<ApiDbContext>(opt => opt.UseMySql(Configuration.GetSection(nameof(AppOption)).GetValue<string>(nameof(AppOption.DbConnection))));
+            #endif
+            #if DEBUG
+            services.AddDbContext<ApiDbContext>(opt => opt.UseInMemoryDatabase(nameof(AnimalCrossing)));
+            #endif
             services.AddControllers();
             services.AddTransient<IDocumentExecuter, DocumentExecuter>();
             services.AddTransient<AnimalCrossingQuery>();
@@ -42,7 +47,7 @@ namespace AnimalCrossing
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ApiDbContext db)
         {
             if (env.IsDevelopment())
             {
@@ -50,6 +55,7 @@ namespace AnimalCrossing
             }
             app.UseGraphQL<ISchema>();
             app.UseGraphQLPlayground();
+            db.EnsureSeedData();
         }
     }
 }
