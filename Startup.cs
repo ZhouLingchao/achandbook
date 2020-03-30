@@ -49,6 +49,10 @@ namespace AnimalCrossing
             {
                 endpoints.MapControllers();
             });
+
+            app.UseGraphiQLServer(new GraphQL.Server.Ui.GraphiQL.GraphiQLOptions{
+                GraphQLEndPoint = "g"
+            });
         }
     }
 }
