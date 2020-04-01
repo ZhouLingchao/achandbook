@@ -34,7 +34,7 @@ namespace AnimalCrossing
         {
             services.Configure<KestrelServerOptions>(options=>options.AllowSynchronousIO=true);
             #if !DEBUG
-            services.AddDbContext<ApiDbContext>(opt => opt.UseMySql(Configuration.GetSection(nameof(AppOption)).GetValue<string>(nameof(AppOption.DbConnection))).EnableRetryOnFailure());
+            services.AddDbContext<ApiDbContext>(opt => opt.UseMySql(Configuration.GetSection(nameof(AppOption)).GetValue<string>(nameof(AppOption.DbConnection))));
             #endif
             #if DEBUG
             services.AddDbContext<ApiDbContext>(opt => opt.UseInMemoryDatabase(nameof(AnimalCrossing)));
