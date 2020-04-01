@@ -1,13 +1,8 @@
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1 AS base
-WORKDIR /app
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1 AS base
 EXPOSE 80
 
 WORKDIR /src
-COPY . .
-RUN dotnet restore
-RUN dotnet build -c Release -o /app
-RUN dotnet publish -c Release -o /app
+COPY ./release /app
 
-FROM base AS final
 WORKDIR /app
 ENTRYPOINT ["dotnet", "AnimalCrossing.dll"]
