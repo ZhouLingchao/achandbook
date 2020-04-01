@@ -55,7 +55,9 @@ namespace AnimalCrossing
             }
             app.UseGraphQL<ISchema>();
             app.UseGraphQLPlayground();
+            #if DEBUG
             db.EnsureSeedData();
+            #endif
         }
     }
 }
